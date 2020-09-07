@@ -93,6 +93,4 @@ public class UserProfileService {
     private void isFileEmpty(MultipartFile file) {
         if (file.isEmpty()) throw new IllegalStateException("Cannot upload empty file");
     }
-
-
 }
