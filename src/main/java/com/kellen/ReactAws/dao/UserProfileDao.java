@@ -9,6 +9,10 @@ import java.util.UUID;
 
 public interface UserProfileDao {
 
+    Optional<UserProfile> getUserProfileById(UUID id);
+
+    List<UserProfile> getAllUserProfiles();
+
     void insertUserProfile(UUID id, UserProfile userProfile);
 
     default void insertUserProfile(UserProfile userProfile) {
@@ -16,7 +20,5 @@ public interface UserProfileDao {
         insertUserProfile(id, userProfile);
     }
 
-    Optional<UserProfile> getUserProfileById(UUID id);
-
-    List<UserProfile> getAllUserProfiles();
+    void updateUserProfile(UserProfile userProfile);
 }

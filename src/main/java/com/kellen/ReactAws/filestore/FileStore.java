@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Optional;
@@ -34,6 +35,17 @@ public class FileStore {
             amazonS3.putObject(path, fileName, inputStream, metaData);
         } catch (AmazonServiceException ase) {
             throw new IllegalStateException("Failed to store file to S3", ase);
+        }
+    }
+
+    public byte[] download(String userProfileImageLink) {
+        int separator = userProfileImageLink.lastIndexOf("/");
+        String path = userProfileImageLink.substring(0, separator);
+        String key = userProfileImageLink.substring(separator + 1);
+        try {
+            return amazonS3.getObject(path, key).getObjectContent().readAllBytes();
+        } catch (AmazonServiceException | IOException e) {
+            throw new IllegalStateException("Failed to download file from s3");
         }
     }
 }

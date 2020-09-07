@@ -33,6 +33,20 @@ public class UserProfileDataAccessService implements UserProfileDao {
     }
 
     @Override
+    public void updateUserProfile(UserProfile userProfile) {
+        final String sql = "UPDATE user_profile SET username = ?, image_link = ? WHERE id = (?::uuid)";
+        jdbcTemplate.update(
+                sql,
+                new Object[]{
+                        userProfile.getUsername(),
+                        userProfile.getUserProfileImageLink().orElse(null),
+                        userProfile.getUserProfileId()
+                },
+                new int[]{Types.VARCHAR, Types.VARCHAR, Types.VARCHAR}
+        );
+    }
+
+    @Override
     public Optional<UserProfile> getUserProfileById(UUID id) {
         final String sql = "SELECT id, username, image_link FROM user_profile WHERE id = ?";
         return Optional.ofNullable(jdbcTemplate.queryForObject(
