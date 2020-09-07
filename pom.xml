@@ -72,7 +72,6 @@
             <version>1.24.1</version>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
